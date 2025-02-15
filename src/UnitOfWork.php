@@ -3164,7 +3164,7 @@ EXCEPTION
 
                     if ($hints['fetchMode'][$class->name][$field] === ClassMetadata::FETCH_EAGER) {
                         $isIteration           = isset($hints[Query::HINT_INTERNAL_ITERATION]) && $hints[Query::HINT_INTERNAL_ITERATION];
-                        $isForeignKeyComposite = count($targetClass->getAssociationMapping($assoc['mappedBy'])['joinColumns']) > 1;
+                        $isForeignKeyComposite = $targetClass->hasAssociation($assoc['mappedBy']) && count($targetClass->getAssociationMapping($assoc['mappedBy'])['joinColumns'] ?? []) > 1;
 
                         if ($assoc['type'] === ClassMetadata::ONE_TO_MANY && ! $isIteration && ! $isForeignKeyComposite && ! isset($assoc['indexBy'])) {
                             $this->scheduleCollectionForBatchLoading($pColl, $class);
